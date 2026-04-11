@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>A Message from the Soul King</title>
     <style>
         body {
@@ -26,7 +26,25 @@
             z-index: 1;
         }
 
-        /* First Page (Landing) */
+        /* VIOLIN NOTES ANIMATION */
+        .violin-note {
+            position: fixed;
+            bottom: -50px;
+            font-size: 1.5rem;
+            color: rgba(246, 229, 141, 0.7);
+            z-index: 3;
+            pointer-events: none;
+            animation: floatUp 6s linear forwards;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-110vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Landing Page */
         #overlay {
             position: fixed;
             width: 100%; height: 100%;
@@ -54,7 +72,27 @@
             text-transform: uppercase;
         }
 
-        .enter-btn:active { transform: translateY(4px); box-shadow: 0 5px #d35400; }
+        /* Haki Pulse for the YES Button */
+        @keyframes hakiPulse {
+            0% { box-shadow: 0 0 10px #27ae60, 0 6px #1e8449; }
+            50% { box-shadow: 0 0 25px #ff4757, 0 0 40px #2f3542, 0 6px #1e8449; }
+            100% { box-shadow: 0 0 10px #27ae60, 0 6px #1e8449; }
+        }
+
+        /* Visual Sound Waves */
+        @keyframes soundWave {
+            0% { transform: scale(1); opacity: 0.8; border-width: 2px; }
+            100% { transform: scale(2.5); opacity: 0; border-width: 12px; }
+        }
+
+        .wave {
+            position: absolute;
+            border: 3px solid #f1c40f;
+            border-radius: 50%;
+            width: 100%; height: 100%;
+            display: none;
+            pointer-events: none;
+        }
 
         /* Main Content Layout */
         #content {
@@ -67,7 +105,12 @@
             align-items: center;
         }
 
-        .text-area { text-align: left; padding: 20px; }
+        /* SAFE PADDING FOR IPHONE (Fixes cropping) */
+        .text-area { 
+            text-align: left; 
+            padding: 20px; 
+            padding-top: 80px; 
+        }
 
         .brook-area {
             display: flex;
@@ -114,10 +157,15 @@
             text-transform: uppercase;
         }
 
-        #yesBtn { background: #27ae60; color: white; box-shadow: 0 6px #1e8449; }
+        #yesBtn { 
+            background: #27ae60; 
+            color: white; 
+            animation: hakiPulse 3s infinite; 
+        }
+
         #noBtn { background: #95a5a6; color: white; box-shadow: 0 6px #7f8c8d; }
 
-        /* Personalized Vivre Card Styling (Bottom Left) */
+        /* Vivre Card (Bottom Left) */
         .vivre-card-area {
             position: fixed;
             bottom: 20px;
@@ -129,8 +177,6 @@
 
         .vivre-card-img {
             max-width: 70px;
-            height: auto;
-            filter: drop-shadow(0 0 8px rgba(246, 229, 141, 0.5));
             animation: vivreFloat 4s infinite ease-in-out;
         }
 
@@ -143,38 +189,38 @@
             font-size: 0.7rem;
             color: #ffda79;
             margin-top: 5px;
-            opacity: 0.9;
-            line-height: 1.3;
             text-shadow: 1px 1px 2px #000;
         }
 
         /* Result Screens */
-        #party-screen, #laboon-screen {
+        #party-screen, #laboon-screen, #tone-dial-page {
             display: none;
             text-align: center;
             animation: fadeIn 1s;
         }
 
-        .party-text { font-size: 3.5rem; color: #ffda79; text-shadow: 4px 4px #e74c3c; margin-bottom: 10px; }
-        
-        .result-img {
-            max-width: 400px;
-            width: 85%;
-            border-radius: 15px;
-            border: 5px solid #f6e58d;
-            box-shadow: 0 0 30px rgba(246, 229, 141, 0.5);
+        /* Tone Dial Container */
+        .dial-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px; border-radius: 50%; border: 8px solid #d4a76a;
+            width: 180px; height: 180px; margin: 0 auto;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; position: relative;
+        }
+
+        .dial-msg {
+            margin-top: 20px; background: #f3e5ab; color: #5d4037;
+            padding: 20px; border-radius: 15px; max-width: 400px; margin-inline: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 1rem;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         @media (max-width: 768px) {
-            #content { grid-template-columns: 1fr; text-align: center; }
-            .text-area { text-align: center; }
+            #content { grid-template-columns: 1fr; }
+            .text-area { padding-top: 100px; } /* More padding for iPhone dynamic island */
             .brook-area { height: 40vh; order: 2; }
-            .brook-img { max-height: 50vh; }
-            .btn-container { justify-content: center; }
-            .vivre-card-area { bottom: 10px; left: 10px; }
-            .vivre-card-img { max-width: 50px; }
+            .brook-img { max-height: 45vh; }
         }
     </style>
 </head>
@@ -187,9 +233,8 @@
         <button class="enter-btn" onclick="startAdventure()">JOIN THE CREW 🏴‍☠️</button>
     </div>
 
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+    <audio id="yohohoAudio"><source src="yohoho.mp3" type="audio/mpeg"></audio>
 
     <div id="content">
         <div id="main-ui">
@@ -211,11 +256,9 @@
                     Would you do me the honor of getting to know each other?
                 </p>
 
-                <div id="decisionArea">
-                    <div class="btn-container">
-                        <button id="yesBtn" class="choice-btn" onclick="sayYes()">SET SAIL! ⛵</button>
-                        <button id="noBtn" class="choice-btn" onclick="sayNo()">Maybe another life... ⚓</button>
-                    </div>
+                <div class="btn-container">
+                    <button id="yesBtn" class="choice-btn" onclick="sayYes()">SET SAIL! ⛵</button>
+                    <button id="noBtn" class="choice-btn" onclick="sayNo()">Maybe another life... ⚓</button>
                 </div>
             </div>
         </div>
@@ -230,20 +273,31 @@
         </div>
 
         <div id="party-screen">
-            <h1 class="party-text">KAMPAI! 🥂</h1>
-            <p style="font-size: 1.3rem; color: white; margin-bottom: 20px;">
-                The crew just got 100% better! <br> I'll message you for our next adventure!
-            </p>
-            <img src="crew.gif" alt="Crew celebrating" class="result-img">
+            <h1 style="font-size: 3.5rem; color: #ffda79; text-shadow: 4px 4px #e74c3c;">KAMPAI! 🥂</h1>
+            <img src="crew.gif" alt="Crew celebrating" style="max-width:320px; border-radius:15px; border:5px solid #f6e58d;">
+            <p style="color: white; font-size: 1.2rem; margin: 20px 0;">Wait! A Tone Dial was left on the deck...</p>
+            <button class="choice-btn" style="background:#e67e22; color:white;" onclick="showDial()">🐚 PLAY TONE DIAL</button>
+        </div>
+
+        <div id="tone-dial-page" style="padding-top: 50px;">
+            <div id="dialIcon" class="dial-container" onclick="revealMessage()">
+                <div class="wave" id="w1"></div>
+                <div class="wave" id="w2"></div>
+                <span style="font-size: 4rem; z-index: 5;">🐚</span>
+                <p style="color: white; font-weight: bold; z-index: 5; margin-top: 10px;">TAP TO LISTEN</p>
+            </div>
+            <div id="dial-box" class="dial-msg" style="display:none;">
+                <p id="typewriter-text" style="font-style: italic;"></p>
+                <p style="font-weight: bold; color: #b33939; margin-top: 15px;">— To be continued! 🏴‍☠️</p>
+            </div>
+            <br>
+            <button class="choice-btn" style="background:#95a5a6; color:white;" onclick="location.reload()">Return</button>
         </div>
 
         <div id="laboon-screen">
-            <h1 style="font-size: 2.5rem; color: #74b9ff; text-shadow: 2px 2px #000;">I'll Wait for You!</h1>
-            <p style="font-size: 1.2rem; color: white; margin-bottom: 20px;">
-                Brook waited 50 years to see Laboon again... <br>
-                I can certainly wait for a better time to chat! Yo-ho-ho-ho!
-            </p>
-            <img src="laboon.gif" alt="Laboon" class="result-img">
+            <h1 style="font-size: 2.5rem; color: #74b9ff;">I'll Wait for You!</h1>
+            <p style="color: white;">Brook waited 50 years to see laboon... I can wait for you! Yo-ho-ho!</p>
+            <img src="laboon.gif" alt="Laboon" style="max-width:320px; border-radius:15px; border:5px solid #f6e58d;">
             <br><br>
             <button class="choice-btn" style="background:#e67e22; color:white;" onclick="location.reload()">Back to Start</button>
         </div>
@@ -255,9 +309,30 @@
     </div>
 
     <script>
+        const dialMessage = "Yo-ho-ho-ho! This message has been waiting 50 years to be played... It says: 'I'd really like to grab some tea with you!' Don't make a skeleton wait another 50 years!";
+        let charIndex = 0;
+
+        function createViolinNote() {
+            const notes = ['♩', '♪', '♫', '♬', '♭', '♮', '♯'];
+            const note = document.createElement('div');
+            note.className = 'violin-note';
+            note.innerText = notes[Math.floor(Math.random() * notes.length)];
+            note.style.left = Math.random() * 100 + "vw";
+            // Variety in size
+            note.style.fontSize = (Math.random() * 1.5 + 1) + "rem";
+            document.body.appendChild(note);
+            
+            // Clean up after animation finishes
+            setTimeout(() => { note.remove(); }, 6000);
+        }
+
         function startAdventure() {
             document.getElementById("bgMusic").play();
             document.getElementById("overlay").style.opacity = "0";
+            
+            // Start spawning notes every 600ms
+            setInterval(createViolinNote, 600);
+
             setTimeout(() => {
                 document.getElementById("overlay").style.display = "none";
                 document.getElementById("content").style.display = window.innerWidth > 768 ? "grid" : "block";
@@ -278,6 +353,47 @@
         function sayNo() {
             document.getElementById("main-ui").style.display = "none";
             document.getElementById("laboon-screen").style.display = "block";
+        }
+
+        function showDial() {
+            document.getElementById("party-screen").style.display = "none";
+            document.getElementById("tone-dial-page").style.display = "block";
+            document.querySelector('.brook-area').style.display = "none";
+        }
+
+        function revealMessage() {
+            const bgMusic = document.getElementById("bgMusic");
+            const laugh = document.getElementById("yohohoAudio");
+            
+            // DUCK BACKGROUND MUSIC
+            bgMusic.volume = 0.15;
+            laugh.volume = 1.0;
+            laugh.play();
+            
+            // Start Visual Waves
+            document.getElementById("w1").style.display = "block";
+            document.getElementById("w2").style.display = "block";
+            document.getElementById("w1").style.animation = "soundWave 1.2s infinite";
+            document.getElementById("w2").style.animation = "soundWave 1.2s infinite 0.6s";
+            document.getElementById("dialIcon").style.animation = "shake 0.3s infinite";
+            
+            document.getElementById("dial-box").style.display = "block";
+            typeWriter();
+
+            // Return music volume after laugh
+            setTimeout(() => { bgMusic.volume = 1.0; }, 4000);
+        }
+
+        function typeWriter() {
+            if (charIndex < dialMessage.length) {
+                document.getElementById("typewriter-text").innerHTML += dialMessage.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 40);
+            } else {
+                document.getElementById("dialIcon").style.animation = "none";
+                document.getElementById("w1").style.display = "none";
+                document.getElementById("w2").style.display = "none";
+            }
         }
     </script>
 </body>
