@@ -13,9 +13,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -26,7 +26,7 @@
             z-index: 1;
         }
 
-        /* VIOLIN NOTES ANIMATION */
+        /* VIOLIN NOTES */
         .violin-note {
             position: fixed;
             bottom: -50px;
@@ -35,246 +35,173 @@
             z-index: 3;
             pointer-events: none;
             animation: floatUp 6s linear forwards;
-            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
         }
 
-        /* BOTTLE FLOATING SOFTLY IN TOP LEFT */
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* BOTTLE MESSAGE */
         .bottle-message {
             position: fixed;
-            top: 40px;
-            left: 30px;
-            font-size: 4.5rem;
+            top: 20px;
+            left: 20px;
+            font-size: 3.5rem;
             cursor: pointer;
             z-index: 1000;
             display: none;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
             animation: softBob 4s infinite ease-in-out;
-            transition: transform 0.3s ease;
-        }
-
-        .bottle-message:hover {
-            transform: scale(1.15) rotate(10deg);
-            filter: drop-shadow(0 0 25px #f1c40f);
         }
 
         @keyframes softBob {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(15px) rotate(5deg); }
+            50% { transform: translateY(10px) rotate(5deg); }
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-110vh) translateX(100px) rotate(360deg); opacity: 0; }
-        }
-
-        /* Landing Page */
+        /* LANDING PAGE */
         #overlay {
             position: fixed;
-            width: 100%; height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: url('onepiece.jpg') no-repeat center center;
             background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 1100;
             transition: 0.8s;
         }
 
         .enter-btn {
-            padding: 20px 50px;
-            font-size: 1.2rem;
+            padding: 15px 40px;
+            font-size: 1.1rem;
             cursor: pointer;
             background: #e67e22;
             color: white;
             border: 4px solid #f6e58d;
             border-radius: 15px;
             font-weight: bold;
-            z-index: 101;
-            box-shadow: 0 10px #d35400;
-            text-transform: uppercase;
         }
 
-        @keyframes hakiPulse {
-            0% { box-shadow: 0 0 10px #27ae60, 0 6px #1e8449; }
-            50% { box-shadow: 0 0 25px #ff4757, 0 0 40px #2f3542, 0 6px #1e8449; }
-            100% { box-shadow: 0 0 10px #27ae60, 0 6px #1e8449; }
-        }
-
-        @keyframes soundWave {
-            0% { transform: scale(1); opacity: 0.8; border-width: 2px; }
-            100% { transform: scale(2.5); opacity: 0; border-width: 12px; }
-        }
-
-        .wave {
-            position: absolute;
-            border: 3px solid #f1c40f;
-            border-radius: 50%;
-            width: 100%; height: 100%;
-            display: none;
-            pointer-events: none;
-        }
-
+        /* MAIN CONTENT STRUCTURE */
         #content {
             display: none;
             width: 95%;
             max-width: 1100px;
-            grid-template-columns: 1.2fr 1fr;
             z-index: 2;
             position: relative;
+            flex-direction: column;
             align-items: center;
-            height: 90vh;
+            padding-top: 60px; /* Prevents top cropping */
         }
 
         .text-area { 
-            text-align: left; 
-            padding: 20px;
+            text-align: center; 
+            padding: 15px;
+            margin-bottom: 20px;
         }
 
+        .btn-container { 
+            display: flex; 
+            gap: 15px; 
+            justify-content: center; 
+            margin-top: 20px; 
+        }
+
+        .choice-btn {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        #yesBtn { background: #27ae60; color: white; }
+        #noBtn { background: #95a5a6; color: white; }
+
+        /* BROOK AREA */
         .brook-area {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            height: 100%;
-            position: relative;
+            margin-top: auto;
         }
 
         .brook-img {
-            max-height: 85vh;
+            max-width: 100%;
+            height: auto;
+            max-height: 50vh;
             cursor: pointer;
-            transition: 0.5s;
-            filter: drop-shadow(0 0 15px #f6e58d);
+            filter: drop-shadow(0 0 10px #f6e58d);
         }
 
-        .brook-img:active, .brook-img:hover { transform: rotate(-15deg); }
-        
-        .skull-joke {
-            position: absolute;
-            top: 10%;
-            background: white;
-            color: black;
-            padding: 10px;
-            border-radius: 20px;
-            display: none;
-            font-weight: bold;
+        /* VIVRE CARD - BOTTOM LEFT */
+        .vivre-card-area {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
             z-index: 10;
-            width: 150px;
-            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
         }
 
-        /* PARCHMENT POPUP */
+        .vivre-card-img {
+            width: 45px; /* Small size */
+            height: auto;
+        }
+
+        .vivre-text {
+            font-size: 0.5rem;
+            color: #ffda79;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        /* POPUP */
         #soul-popup {
             display: none;
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             background: #f3e5ab; 
-            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-            border: 8px double #5d4037;
+            border: 6px double #5d4037;
             padding: 20px;
-            border-radius: 5px;
             z-index: 2000;
             text-align: center;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            width: 85%;
-            max-width: 400px;
+            width: 80%;
+            max-width: 350px;
             color: #5d4037;
         }
 
-        h1 { font-size: 2.5rem; text-shadow: 3px 3px #000; margin-bottom: 0; }
-        .sub { font-size: 1.1rem; color: #ffda79; margin-bottom: 15px; }
-
-        .btn-container { display: flex; gap: 15px; margin-top: 25px; }
-
-        .choice-btn {
-            padding: 12px 25px;
-            font-size: 0.9rem;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-            text-transform: uppercase;
-        }
-
-        #yesBtn { background: #27ae60; color: white; animation: hakiPulse 3s infinite; }
-        #noBtn { background: #95a5a6; color: white; box-shadow: 0 6px #7f8c8d; }
-
-        .vivre-card-area {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            text-align: left;
-            z-index: 5;
-            max-width: 180px;
-        }
-
-        .vivre-card-img {
-            max-width: 60px;
-            animation: vivreFloat 4s infinite ease-in-out;
-        }
-
-        .vivre-text {
-            font-size: 0.65rem; color: #ffda79; margin-top: 5px; text-shadow: 1px 1px 2px #000;
-        }
-
+        /* SCREENS */
         #party-screen, #laboon-screen, #tone-dial-page {
-            display: none; text-align: center; animation: fadeIn 1s;
+            display: none; 
+            padding: 20px;
+            text-align: center;
         }
 
-        .dial-container {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px; border-radius: 50%; border: 6px solid #d4a76a;
-            width: 140px; height: 140px; margin: 0 auto;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; position: relative;
+        /* DESKTOP ADJUSTMENTS */
+        @media (min-width: 769px) {
+            #content { flex-direction: row; height: 80vh; padding-top: 0; }
+            .text-area { text-align: left; flex: 1.2; }
+            .brook-area { flex: 1; }
+            .brook-img { max-height: 80vh; }
+            .btn-container { justify-content: flex-start; }
+            .vivre-card-img { width: 65px; }
+            .vivre-text { font-size: 0.6rem; }
         }
 
-        .dial-msg {
-            margin-top: 20px; background: #f3e5ab; color: #5d4037;
-            padding: 15px; border-radius: 15px; max-width: 320px; margin-inline: auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 0.9rem;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* --- HP FIXES --- */
         @media (max-width: 768px) {
-            body { overflow-y: auto; align-items: flex-start; }
-            #content { 
-                grid-template-columns: 1fr; 
-                height: auto; 
-                padding-bottom: 120px; /* Space for Brook at bottom */
-                display: none; /* Controlled by JS */
-            }
-            .text-area { padding-top: 100px; text-align: center; }
-            .btn-container { justify-content: center; }
-            
-            .brook-area { 
-                position: relative;
-                height: 300px;
-                margin-top: 20px;
-            }
-            .brook-img { max-height: 280px; }
-            
-            .bottle-message { 
-                font-size: 3rem; 
-                top: 15px; 
-                left: 15px; 
-            }
-            
-            .vivre-card-area {
-                position: relative;
-                bottom: 0;
-                left: 0;
-                margin: 20px auto;
-                text-align: center;
-                max-width: 100%;
-            }
-            
-            h1 { font-size: 1.8rem; }
-            .sub { font-size: 0.9rem; }
+            h1 { font-size: 1.6rem; }
+            .quote { font-size: 0.7rem; }
+            #laboon-screen h1 { margin-top: 40px; } /* Prevent cropping on Laboon page */
         }
     </style>
 </head>
@@ -283,20 +210,18 @@
     <div class="overlay-layer"></div>
 
     <div id="overlay">
-        <h2 style="color: white; text-shadow: 2px 2px #000; margin-bottom: 30px;">⚠️ New Logbook Entry Found!</h2>
-        <button class="enter-btn" onclick="startAdventure()">JOIN THE CREW 🏴‍☠️</button>
+        <h2 style="color: white; margin-bottom: 20px;">⚠️ New Logbook Entry Found!</h2>
+        <button class="enter-btn" onclick="startAdventure()">SET SAIL 🏴‍☠️</button>
     </div>
 
     <div id="static-bottle" class="bottle-message" onclick="openSoulPopup()">🍾</div>
 
     <div id="soul-popup">
-        <h2 style="margin-top:0; font-size: 1.2rem;">A Message Drifted Ashore...</h2>
-        <p style="font-size: 1rem; font-weight: bold; font-style: italic;">
-            "What’s one thing that always makes you smile, even on a bad day?"
-        </p>
-        <textarea placeholder="Write your heart out..." style="width: 90%; height: 60px; padding: 10px; border: 1px solid #5d4037; background: rgba(255,255,255,0.3); font-family: inherit; resize: none;"></textarea>
+        <h3 style="margin: 0 0 10px 0;">A Message from the Sea</h3>
+        <p style="font-size: 0.9rem; font-style: italic;">"What’s one thing that always makes you smile?"</p>
+        <textarea style="width: 90%; height: 50px; border: 1px solid #5d4037; background: transparent;"></textarea>
         <br><br>
-        <button class="choice-btn" style="background: #5d4037; color: white;" onclick="closeSoulPopup()">TOSS IT BACK</button>
+        <button class="choice-btn" style="background: #5d4037; color: white;" onclick="closeSoulPopup()">CLOSE</button>
     </div>
 
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
@@ -305,81 +230,54 @@
     <div id="content">
         <div id="main-ui">
             <div class="text-area">
-                <div class="quote" style="font-style: italic; font-size: 0.8rem; color: #f1c40f; margin-bottom: 15px;">
-                    "No matter how deep the night, it always turns to day..."
-                </div>
+                <div class="quote">"No matter how deep the night, it always turns to day..."</div>
                 <h1>Yo-ho-ho-ho!</h1>
-                <div class="sub">Wait, I don't have eyes to see how wonderful you look... because I'm a skeleton!</div>
-                <p style="font-size: 1rem; color: white;">
-                    I would give my heart to hear your stories... 
-                    if I had a heart! SKULL JOKE! 💀
+                <p style="font-size: 0.9rem; color: white;">
+                    I have no eyes, but I can see you're special! Would you like to join me for a cup of tea?
                 </p>
                 <div class="btn-container">
-                    <button id="yesBtn" class="choice-btn" onclick="sayYes()">SET SAIL! ⛵</button>
-                    <button id="noBtn" class="choice-btn" onclick="sayNo()">Maybe another life... ⚓</button>
+                    <button id="yesBtn" class="choice-btn" onclick="sayYes()">YES! ⛵</button>
+                    <button id="noBtn" class="choice-btn" onclick="sayNo()">LATER... ⚓</button>
                 </div>
-            </div>
-            
-            <div class="vivre-card-area">
-                <img src="vivre-card.png" alt="Vivre Card" class="vivre-card-img">
-                <p class="vivre-text">
-                    <strong> イリ's Hand crafted Vivre Card</strong><br>
-                    Forged with care 🛠️✨
-                </p>
             </div>
         </div>
 
         <div id="party-screen">
-            <h1 style="font-size: 2.5rem; color: #ffda79;">乾杯! 🥂</h1>
-            <img src="crew.gif" alt="Crew celebrating" style="max-width:280px; border-radius:15px; border:3px solid #f6e58d;">
-            <p style="color: white; font-size: 1rem; margin: 15px 0;">Wait! A Tone Dial was left on the deck...</p>
-            <button class="choice-btn" style="background:#e67e22; color:white;" onclick="showDial()">🐚 PLAY TONE DIAL</button>
+            <h1>乾杯! 🥂</h1>
+            <img src="crew.gif" style="width: 250px; border-radius: 10px;">
+            <p>Wait! A Tone Dial was left on the deck...</p>
+            <button class="choice-btn" style="background:#e67e22; color:white;" onclick="showDial()">🐚 PLAY DIAL</button>
         </div>
 
-        <div id="tone-dial-page" style="padding-top: 30px;">
-            <div id="dialIcon" class="dial-container" onclick="revealMessage()">
-                <div class="wave" id="w1"></div>
-                <div class="wave" id="w2"></div>
-                <span style="font-size: 3rem; z-index: 5;">🐚</span>
-                <p style="color: white; font-weight: bold; z-index: 5; margin-top: 5px; font-size: 0.8rem;">Tap here</p>
-            </div>
-            <div id="dial-box" class="dial-msg" style="display:none;">
-                <p id="typewriter-text" style="font-style: italic;"></p>
-                <p style="font-weight: bold; color: #b33939; margin-top: 10px;">— To be continued! 🏴‍☠️</p>
-            </div>
-            <br>
-            <button class="choice-btn" style="background:#95a5a6; color:white;" onclick="location.reload()">Return</button>
-        </div>
-
-        <div id="laboon-screen" style="text-align: center; padding: 20px;">
-            <h1 style="font-size: 1.8rem; color: #ffda79;">The Song Still Echoes...</h1>
-            <p style="font-size: 0.95rem; color: white; margin-bottom: 20px;">
-                "I’ve waited half a century to deliver a song... I can wait for you. Yo-ho-ho-ho!"
-            </p>
-            <img src="laboon.gif" alt="Laboon" style="width: 100%; max-width: 250px; border-radius: 15px;">
+        <div id="laboon-screen">
+            <h1>The Song Still Echoes...</h1>
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">"I can wait a little longer for a friend. Yo-ho-ho-ho!"</p>
+            <img src="laboon.gif" style="width: 250px; border-radius: 10px;">
             <br><br>
             <button class="choice-btn" style="background:#e67e22; color:white;" onclick="location.reload()">BACK</button>
         </div>
 
+        <div id="tone-dial-page">
+            <div onclick="revealMessage()" style="font-size: 3rem; cursor: pointer;">🐚</div>
+            <div id="dial-box" style="display:none; margin-top: 15px; color: #fff; font-style: italic;">
+                <p id="typewriter-text"></p>
+            </div>
+            <button class="choice-btn" onclick="location.reload()" style="margin-top: 20px;">RETURN</button>
+        </div>
+
         <div class="brook-area">
-            <div id="joke-bubble" class="skull-joke">My heart is racing! Oh wait, I don't have a heart!</div>
-            <img src="brook.png" alt="Brook" class="brook-img" onclick="showJoke()">
+            <img src="brook.png" alt="Brook" class="brook-img">
         </div>
     </div>
 
-    <script>
-        const dialMessage = "Yo-ho-ho-ho! 'Thank you for not making a skeleton wait another 50 years! It would be my honor to share tea with you soon!'";
-        let charIndex = 0;
+    <div class="vivre-card-area">
+        <img src="vivre-card.png" alt="Vivre Card" class="vivre-card-img">
+        <p class="vivre-text">イリ's Forged Card</p>
+    </div>
 
-        function createViolinNote() {
-            const notes = ['♩', '♪', '♫', '♬'];
-            const note = document.createElement('div');
-            note.className = 'violin-note';
-            note.innerText = notes[Math.floor(Math.random() * notes.length)];
-            note.style.left = Math.random() * 100 + "vw";
-            document.body.appendChild(note);
-            setTimeout(() => { note.remove(); }, 6000);
-        }
+    <script>
+        const dialMessage = "Yo-ho-ho-ho! Thank you for the company! Let's meet again in the Grand Line!";
+        let charIndex = 0;
 
         function startAdventure() {
             document.getElementById("bgMusic").play();
@@ -388,50 +286,27 @@
             setInterval(createViolinNote, 600);
             setTimeout(() => {
                 document.getElementById("overlay").style.display = "none";
-                document.getElementById("content").style.display = (window.innerWidth > 768) ? "grid" : "block";
+                document.getElementById("content").style.display = "flex";
             }, 800);
         }
 
-        function openSoulPopup() {
-            document.getElementById("soul-popup").style.display = "block";
-            document.getElementById("bgMusic").volume = 0.3;
+        function createViolinNote() {
+            const note = document.createElement('div');
+            note.className = 'violin-note';
+            note.innerText = '♪';
+            note.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(note);
+            setTimeout(() => { note.remove(); }, 6000);
         }
 
-        function closeSoulPopup() {
-            document.getElementById("soul-popup").style.display = "none";
-            document.getElementById("bgMusic").volume = 1.0;
-        }
-
-        function showJoke() {
-            const bubble = document.getElementById("joke-bubble");
-            bubble.style.display = "block";
-            setTimeout(() => { bubble.style.display = "none"; }, 3000);
-        }
-
-        function sayYes() {
-            document.getElementById("main-ui").style.display = "none";
-            document.getElementById("party-screen").style.display = "block";
-        }
-
-        function sayNo() {
-            document.getElementById("main-ui").style.display = "none";
-            document.getElementById("laboon-screen").style.display = "block";
-        }
-
-        function showDial() {
-            document.getElementById("party-screen").style.display = "none";
-            document.getElementById("tone-dial-page").style.display = "block";
-            document.querySelector('.brook-area').style.display = "none";
-        }
-
+        function openSoulPopup() { document.getElementById("soul-popup").style.display = "block"; }
+        function closeSoulPopup() { document.getElementById("soul-popup").style.display = "none"; }
+        function sayYes() { document.getElementById("main-ui").style.display = "none"; document.getElementById("party-screen").style.display = "block"; }
+        function sayNo() { document.getElementById("main-ui").style.display = "none"; document.getElementById("laboon-screen").style.display = "block"; }
+        function showDial() { document.getElementById("party-screen").style.display = "none"; document.getElementById("tone-dial-page").style.display = "block"; }
+        
         function revealMessage() {
-            const laugh = document.getElementById("yohohoAudio");
-            laugh.play();
-            document.getElementById("w1").style.display = "block";
-            document.getElementById("w2").style.display = "block";
-            document.getElementById("w1").style.animation = "soundWave 1.2s infinite";
-            document.getElementById("w2").style.animation = "soundWave 1.2s infinite 0.6s";
-            document.getElementById("dialIcon").style.animation = "shake 0.3s infinite";
+            document.getElementById("yohohoAudio").play();
             document.getElementById("dial-box").style.display = "block";
             typeWriter();
         }
@@ -440,11 +315,7 @@
             if (charIndex < dialMessage.length) {
                 document.getElementById("typewriter-text").innerHTML += dialMessage.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeWriter, 40);
-            } else {
-                document.getElementById("dialIcon").style.animation = "none";
-                document.getElementById("w1").style.display = "none";
-                document.getElementById("w2").style.display = "none";
+                setTimeout(typeWriter, 50);
             }
         }
     </script>
