@@ -38,6 +38,30 @@
             text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
         }
 
+        /* UPDATED: BOTTLE FLOATING SOFTLY IN TOP LEFT */
+        .bottle-message {
+            position: fixed;
+            top: 40px; /* Adjusted for top left */
+            left: 30px;
+            font-size: 4.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            display: none; /* Shown after adventure starts */
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+            animation: softBob 4s infinite ease-in-out;
+            transition: transform 0.3s ease;
+        }
+
+        .bottle-message:hover {
+            transform: scale(1.15) rotate(10deg);
+            filter: drop-shadow(0 0 25px #f1c40f);
+        }
+
+        @keyframes softBob {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(15px) rotate(5deg); }
+        }
+
         @keyframes floatUp {
             0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -72,14 +96,12 @@
             text-transform: uppercase;
         }
 
-        /* Haki Pulse for the YES Button */
         @keyframes hakiPulse {
             0% { box-shadow: 0 0 10px #27ae60, 0 6px #1e8449; }
             50% { box-shadow: 0 0 25px #ff4757, 0 0 40px #2f3542, 0 6px #1e8449; }
             100% { box-shadow: 0 0 10px #27ae60, 0 6px #1e8449; }
         }
 
-        /* Visual Sound Waves */
         @keyframes soundWave {
             0% { transform: scale(1); opacity: 0.8; border-width: 2px; }
             100% { transform: scale(2.5); opacity: 0; border-width: 12px; }
@@ -94,7 +116,6 @@
             pointer-events: none;
         }
 
-        /* Main Content Layout */
         #content {
             display: none;
             width: 95%;
@@ -105,7 +126,6 @@
             align-items: center;
         }
 
-        /* SAFE PADDING FOR IPHONE (Fixes cropping) */
         .text-area { 
             text-align: left; 
             padding: 20px; 
@@ -141,6 +161,26 @@
             z-index: 10;
         }
 
+        /* PARCHMENT POPUP */
+        #soul-popup {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f3e5ab; 
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            border: 10px double #5d4037;
+            padding: 30px;
+            border-radius: 5px;
+            z-index: 2000;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            width: 85%;
+            max-width: 450px;
+            color: #5d4037;
+            animation: fadeIn 0.5s;
+        }
+
         h1 { font-size: 2.5rem; text-shadow: 3px 3px #000; margin-bottom: 0; }
         .sub { font-size: 1.1rem; color: #ffda79; margin-bottom: 20px; }
 
@@ -157,15 +197,9 @@
             text-transform: uppercase;
         }
 
-        #yesBtn { 
-            background: #27ae60; 
-            color: white; 
-            animation: hakiPulse 3s infinite; 
-        }
-
+        #yesBtn { background: #27ae60; color: white; animation: hakiPulse 3s infinite; }
         #noBtn { background: #95a5a6; color: white; box-shadow: 0 6px #7f8c8d; }
 
-        /* Vivre Card (Bottom Left) */
         .vivre-card-area {
             position: fixed;
             bottom: 20px;
@@ -180,26 +214,14 @@
             animation: vivreFloat 4s infinite ease-in-out;
         }
 
-        @keyframes vivreFloat {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
-        }
-
         .vivre-text {
-            font-size: 0.7rem;
-            color: #ffda79;
-            margin-top: 5px;
-            text-shadow: 1px 1px 2px #000;
+            font-size: 0.7rem; color: #ffda79; margin-top: 5px; text-shadow: 1px 1px 2px #000;
         }
 
-        /* Result Screens */
         #party-screen, #laboon-screen, #tone-dial-page {
-            display: none;
-            text-align: center;
-            animation: fadeIn 1s;
+            display: none; text-align: center; animation: fadeIn 1s;
         }
 
-        /* Tone Dial Container */
         .dial-container {
             background: rgba(0, 0, 0, 0.6);
             padding: 30px; border-radius: 50%; border: 8px solid #d4a76a;
@@ -218,9 +240,10 @@
 
         @media (max-width: 768px) {
             #content { grid-template-columns: 1fr; }
-            .text-area { padding-top: 100px; } /* More padding for iPhone dynamic island */
+            .text-area { padding-top: 100px; }
             .brook-area { height: 40vh; order: 2; }
             .brook-img { max-height: 45vh; }
+            .bottle-message { font-size: 3.5rem; top: 20px; left: 15px; }
         }
     </style>
 </head>
@@ -233,6 +256,18 @@
         <button class="enter-btn" onclick="startAdventure()">JOIN THE CREW 🏴‍☠️</button>
     </div>
 
+    <div id="static-bottle" class="bottle-message" onclick="openSoulPopup()">🍾</div>
+
+    <div id="soul-popup">
+        <h2 style="margin-top:0;">A Message Drifted Ashore...</h2>
+        <p style="font-size: 1.3rem; font-weight: bold; font-style: italic;">
+            "What’s one thing that always makes you smile, even on a bad day?"
+        </p>
+        <textarea placeholder="Write your heart out..." style="width: 90%; height: 80px; padding: 10px; border: 1px solid #5d4037; background: rgba(255,255,255,0.3); font-family: inherit; resize: none;"></textarea>
+        <br><br>
+        <button class="choice-btn" style="background: #5d4037; color: white;" onclick="closeSoulPopup()">TOSS IT BACK</button>
+    </div>
+
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
     <audio id="yohohoAudio"><source src="yohoho.mp3" type="audio/mpeg"></audio>
 
@@ -242,20 +277,16 @@
                 <div class="quote" style="font-style: italic; font-size: 0.9rem; color: #f1c40f; margin-bottom: 20px;">
                     "No matter how deep the night, it always turns to day...<br>The sunrise that never ends."
                 </div>
-
                 <h1>Yo-ho-ho-ho!</h1>
                 <div class="sub">Wait, I don't have eyes to see how wonderful you look... because I'm a skeleton!</div>
-                
                 <p style="font-size: 1.1rem; color: white;">
                     A skeleton like me shouldn't be so bold, but I would give my heart to hear your stories... 
                     if I had a heart! SKULL JOKE! 💀
                 </p>
-                
                 <p>
                     I've been sailing the Grand Line looking for someone to share a cup of tea and a laugh with. 
                     Would you do me the honor of getting to know each other?
                 </p>
-
                 <div class="btn-container">
                     <button id="yesBtn" class="choice-btn" onclick="sayYes()">SET SAIL! ⛵</button>
                     <button id="noBtn" class="choice-btn" onclick="sayNo()">Maybe another life... ⚓</button>
@@ -266,14 +297,14 @@
         <div class="vivre-card-area">
             <img src="vivre-card.png" alt="Vivre Card" class="vivre-card-img">
             <p class="vivre-text">
-                <strong>Hand-crafted Vivre Card</strong><br>
+                <strong> イリ's Hand crafted Vivre Card</strong><br>
                 Forged with care by your personal <br>
-                Shipwright & Senpai. 🛠️✨
+                Shipwright 🛠️✨
             </p>
         </div>
 
         <div id="party-screen">
-            <h1 style="font-size: 3.5rem; color: #ffda79; text-shadow: 4px 4px #e74c3c;">KAMPAI! 🥂</h1>
+            <h1 style="font-size: 3.5rem; color: #ffda79; text-shadow: 4px 4px #e74c3c;">乾杯! 🥂</h1>
             <img src="crew.gif" alt="Crew celebrating" style="max-width:320px; border-radius:15px; border:5px solid #f6e58d;">
             <p style="color: white; font-size: 1.2rem; margin: 20px 0;">Wait! A Tone Dial was left on the deck...</p>
             <button class="choice-btn" style="background:#e67e22; color:white;" onclick="showDial()">🐚 PLAY TONE DIAL</button>
@@ -284,7 +315,7 @@
                 <div class="wave" id="w1"></div>
                 <div class="wave" id="w2"></div>
                 <span style="font-size: 4rem; z-index: 5;">🐚</span>
-                <p style="color: white; font-weight: bold; z-index: 5; margin-top: 10px;">TAP TO LISTEN</p>
+                <p style="color: white; font-weight: bold; z-index: 5; margin-top: 10px;">Tap here</p>
             </div>
             <div id="dial-box" class="dial-msg" style="display:none;">
                 <p id="typewriter-text" style="font-style: italic;"></p>
@@ -294,12 +325,19 @@
             <button class="choice-btn" style="background:#95a5a6; color:white;" onclick="location.reload()">Return</button>
         </div>
 
-        <div id="laboon-screen">
-            <h1 style="font-size: 2.5rem; color: #74b9ff;">I'll Wait for You!</h1>
-            <p style="color: white;">Brook waited 50 years to see laboon... I can wait for you! Yo-ho-ho!</p>
-            <img src="laboon.gif" alt="Laboon" style="max-width:320px; border-radius:15px; border:5px solid #f6e58d;">
+        <div id="laboon-screen" style="text-align: center; padding: 40px 20px;">
+            <h1 style="font-size: 2rem; color: #ffda79; margin-bottom: 10px;">The Song Still Echoes...</h1>
+            <p style="font-size: 1.1rem; color: white; line-height: 1.6; margin-bottom: 25px; padding: 0 10px;">
+                "Just like the melody of <strong>Binks’ Sake</strong>, some things never fade. <br><br>
+                I’ve waited half a century to deliver a song to a friend at the Twin Capes... <br>
+                I can certainly wait a little longer for you. <br>
+                <strong>Yo-ho-ho-ho!</strong>"
+            </p>
+            <img src="laboon.gif" alt="Laboon" style="width: 100%; max-width: 300px; border-radius: 15px; border: 3px solid #ffda79;">
             <br><br>
-            <button class="choice-btn" style="background:#e67e22; color:white;" onclick="location.reload()">Back to Start</button>
+            <button class="choice-btn" style="background:#e67e22; color:white; padding: 12px 30px; border-radius: 25px;" onclick="location.reload()">
+                BACK TO THE SHIP
+            </button>
         </div>
 
         <div class="brook-area">
@@ -309,7 +347,7 @@
     </div>
 
     <script>
-        const dialMessage = "Yo-ho-ho-ho! This message has been waiting 50 years to be played... It says: 'I'd really like to grab some tea with you!' Don't make a skeleton wait another 50 years!";
+        const dialMessage = "Yo-ho-ho-ho! A message from the deep fog... 'Thank you for not making a skeleton wait another 50 years! It would be my absolute honor to share a cup of tea with you soon!'";
         let charIndex = 0;
 
         function createViolinNote() {
@@ -318,11 +356,8 @@
             note.className = 'violin-note';
             note.innerText = notes[Math.floor(Math.random() * notes.length)];
             note.style.left = Math.random() * 100 + "vw";
-            // Variety in size
             note.style.fontSize = (Math.random() * 1.5 + 1) + "rem";
             document.body.appendChild(note);
-            
-            // Clean up after animation finishes
             setTimeout(() => { note.remove(); }, 6000);
         }
 
@@ -330,13 +365,24 @@
             document.getElementById("bgMusic").play();
             document.getElementById("overlay").style.opacity = "0";
             
-            // Start spawning notes every 600ms
+            // Reveal the static bottle
+            document.getElementById("static-bottle").style.display = "block";
+            
             setInterval(createViolinNote, 600);
-
             setTimeout(() => {
                 document.getElementById("overlay").style.display = "none";
                 document.getElementById("content").style.display = window.innerWidth > 768 ? "grid" : "block";
             }, 800);
+        }
+
+        function openSoulPopup() {
+            document.getElementById("soul-popup").style.display = "block";
+            document.getElementById("bgMusic").volume = 0.3;
+        }
+
+        function closeSoulPopup() {
+            document.getElementById("soul-popup").style.display = "none";
+            document.getElementById("bgMusic").volume = 1.0;
         }
 
         function showJoke() {
@@ -364,23 +410,16 @@
         function revealMessage() {
             const bgMusic = document.getElementById("bgMusic");
             const laugh = document.getElementById("yohohoAudio");
-            
-            // DUCK BACKGROUND MUSIC
             bgMusic.volume = 0.15;
             laugh.volume = 1.0;
             laugh.play();
-            
-            // Start Visual Waves
             document.getElementById("w1").style.display = "block";
             document.getElementById("w2").style.display = "block";
             document.getElementById("w1").style.animation = "soundWave 1.2s infinite";
             document.getElementById("w2").style.animation = "soundWave 1.2s infinite 0.6s";
             document.getElementById("dialIcon").style.animation = "shake 0.3s infinite";
-            
             document.getElementById("dial-box").style.display = "block";
             typeWriter();
-
-            // Return music volume after laugh
             setTimeout(() => { bgMusic.volume = 1.0; }, 4000);
         }
 
